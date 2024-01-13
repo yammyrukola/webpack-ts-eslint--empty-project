@@ -4,16 +4,9 @@
     "es2021": true
   },
   "extends": [
-    "airbnb-typescript/base",
+    "prettier",
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
-  "plugins": [
-    "@typescript-eslint"
+    "airbnb-base"
   ],
   "rules": {
     "no-plusplus": "off",
@@ -22,13 +15,10 @@
     "indent": ["warn", 2, {
       "SwitchCase": 1
     }],
-    "@typescript-eslint/indent": ["warn", 2, {
-      "SwitchCase": 1
-    }],
     "import/prefer-default-export": "off",
     "no-param-reassign": ["error", {
       "props": false
     }]
   },
-  "ignorePatterns": ["*config.js"]
+  "ignorePatterns": ["*config.js", "dist/", "node_modules/", "*.eslintrc"]
 }

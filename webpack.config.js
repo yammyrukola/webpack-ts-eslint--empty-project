@@ -5,21 +5,25 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
-const devServer = (isDev) => !isDev ? {} : {
-  devServer: {
-    open: true,
-    port: 8080,
-    contentBase: path.join(__dirname, 'public'),
-  },
-};
+const devServer = (isDev) =>
+  !isDev
+    ? {}
+    : {
+        devServer: {
+          open: true,
+          port: 8080,
+          contentBase: path.join(__dirname, 'public'),
+        },
+      };
 
-const esLintPlugin = (isDev) => isDev ? [] : [ new ESLintPlugin({ extensions: ['ts', 'js'] }) ];
+const esLintPlugin = (isDev) =>
+  isDev ? [] : [new ESLintPlugin({ extensions: ['ts', 'js'] })];
 
 module.exports = ({ development }) => ({
   mode: development ? 'development' : 'production',
   devtool: development ? 'inline-source-map' : false,
   entry: {
-    main: './src/index.ts',
+    main: './src/index.js',
   },
   output: {
     filename: '[name].[contenthash].js',
@@ -28,11 +32,6 @@ module.exports = ({ development }) => ({
   },
   module: {
     rules: [
-      {
-        test: /\.[tj]s$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|svg)$/i,
         type: 'asset/resource',
@@ -47,8 +46,8 @@ module.exports = ({ development }) => ({
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
-      }
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+      },
     ],
   },
   plugins: [
@@ -56,15 +55,17 @@ module.exports = ({ development }) => ({
     new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
     new HtmlWebpackPlugin({ template: './src/index.html' }),
     new CopyPlugin({
-      patterns: [{
-        from: 'public',
-        noErrorOnMissing: true,
-      }],
+      patterns: [
+        {
+          from: 'public',
+          noErrorOnMissing: true,
+        },
+      ],
     }),
     new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
   ],
   resolve: {
     extensions: ['.ts', '.js'],
   },
-  ...devServer(development)
+  ...devServer(development),
 });
